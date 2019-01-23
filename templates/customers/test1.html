@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    {% for book in page1 %}
+    <li>
+        {{ book.username }}------{{ book.pwd }}
+    </li>
+    {% endfor %}
+
+</ul>
+</body>
+</html>

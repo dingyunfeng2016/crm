@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <script src="/static/jq/jquery-3.3.1.js"></script>
+</head>
+<body>
+<form>
+      {% csrf_token %}
+    <input type="text" placeholder="用户名" id="username">
+    <input type="text" placeholder="密码" id="pwd">
+    <input type="button" id="btn1" value="提交"> <span class="error"></span>
+</form>
+<ul>
+    <li>aaa</li>
+    <li>bbb</li>
+    <li>ccc</li>
+    <li>ddd</li>
+    <li>eee</li>
+</ul>
+
+</body>
+<script>
+
+    $('ul li').each(function () {
+        console.log($(this).html())
+    });
+
+    $('#btn1').click(function () {
+        $.ajax(
+            {
+                url: '/ajax_login/',
+                type: 'POST',
+                data: {
+                    username: $('#username').val(),
+                    pwd: $('#pwd').val(),
+                    csrfmiddlewaretoken:$("[name='csrfmiddlewaretoken']").val()
+                },
+                success: function (response) {
+                    let res_dict = JSON.parse(response); //将收到的内容反序列化
+                    console.log(res_dict);
+
+                    if (res_dict.user_obj){location.href='www.baidu.com'}  //如果有这个账号,跳转到百度
+                    else {$('.error').html(res_dict.error).css('color','red'); }  //如果没有这个账号显示提示信息标红
+                }
+            }
+        );
+    })
+</script>
+</html>

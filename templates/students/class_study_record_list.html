@@ -1,0 +1,92 @@
+{% extends 'customers/base.html' %}
+{% block content %}
+
+    <link src="/static/bootstrap-3.3.7/css/bootstrap.css">
+    <srcipt src="/static/bootstrap-3.3.7/css/bootstrap.css"></srcipt>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-1">
+                班级列表---
+            </div>
+
+            <div class="col-md-11">
+                <h4><strong> 班级记录表 </strong></h4>
+                 <div class="box-header">
+                    <h3 class="box-title"><a href="/class_study_record/add/" class="btn btn-primary btn-sm">添加班级记录</a>
+                    </h3>
+                </div>
+                <section class="content-header">
+                    <h3>
+                        {{ label }}
+
+                    </h3>
+
+
+                </section>
+
+
+                <form action="" method="post" >
+                    {% csrf_token %}
+                    <ol class="breadcrumb" >
+                        <select name="action" id="" class="form-control" style="display: inline-block;width: 200px">
+                            <option value="patch_init">批量创建学习记录</option>
+                        </select>
+                        <button style="vertical-align: 0px" class="btn btn-primary"> go </button>
+
+                    </ol>
+
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>编号</th>
+                            <th>id</th>
+                            <th>班级</th>
+                            <th>第几节</th>
+                            <th>讲师</th>
+                            <th>录入成绩</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for class_study_obj in class_record_list %}
+                            <tr>
+                                <td><input type="checkbox" name="selected_pk_list" value="{{ cls_study_record.pk }}"></td>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ class_study_obj.id }}</td>
+                                <td>{{ class_study_obj.class_obj }}</td>
+                                <td>{{ class_study_obj.day_num }}</td>
+
+                                <td>{{ class_study_obj.teacher }}</td>
+
+                                {#                            <td><a href="/student_study_record_list/?customer_id={{ customer.pk }}">录入成绩</a></td>#}
+
+                                 <td><a href="/record_score/{{ class_study_obj.pk }}">录入成绩</a></td>
+                                <td>
+                                    <a href="/url 'class_study_record/?nid={{ class_study_obj.id }}"><i
+                                            class="fa fa-edit"
+                                            aria-hidden="true">编辑</i></a>
+
+                                    <a href="/url 'class_study_record/?nid={{ class_study_obj.id }}"><i
+                                            class="fa fa-trash-o fa-lg">删除</i></a>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+{% endblock %}

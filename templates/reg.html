@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.css">
+    <script src="/static/jq/jquery-3.3.1.js"></script>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+        <h1 style="margin-top: 80px">注册账号</h1>
+            <form action="" novalidate style="margin-top: 80px">
+                {% csrf_token %}
+                {% for field in form_obj %}
+                    <div class="form-group">
+                        {{ field.label }}
+                        {{ field }} <span class="error pull-right">  </span>
+                    </div>
+                {% endfor %}
+                <input type="button" class="btn btn-primary" id="btn1" style="margin-left: 250px" value="提交">
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#btn1').click(function () {
+        $.ajax({
+            url: '',
+            type: 'POST',
+            data: {
+                user: $('#id_user').val(),  // id_字段名是form组件自动生成的,可以通过检查看见
+                pwd: $('#id_pwd').val(),
+                r_pwd: $('#id_r_pwd').val(),
+                email: $('#id_email').val(),
+                csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val()
+            },
+            success: function (res) {
+                if (res.user) {   //如果有user表示注册成功
+                    location.href = '/login/'
+
+                }
+                else {  //没有user表示注册失败,操作dom显示错误信息
+                    $('.error').html('');  //将span中上次的错误信息清除掉, 不然还是上次的错误
+                    $('.form-group').removeClass('has-error');  //去掉文本框has-error的样式
+
+                    // res是{user:user, err_msg}  可以用each循环
+                    $.each(res.err_msg, function (i, j) { // res.err_msg:等于的form_obj.errors
+                        // e.g{id_user:{'后台的user.errors'},id_pwd:'后台的pwd.errors'}
+                        console.log(i, j);    //i 是res.err_msg的key, j是value
+
+                        $('#id_' + i).next().html(j[0]).css('color', 'red').parent().addClass('has-error');
+                        //先找到标签, 再找后面的span,再赋值,再添加变红的样式,再给父标签input增加has-error的样式
+                    });
+
+                }
+
+
+            }
+        })
+    })
+</script>
+</body>
+
+
+</html>

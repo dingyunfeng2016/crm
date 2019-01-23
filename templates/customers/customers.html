@@ -1,0 +1,104 @@
+{% extends 'customers/base.html' %}
+{% block list_name %}
+    <h1><strong> 所有客户列表 </strong></h1>
+{% endblock %}
+
+{% block content %}
+
+    <h3 style="margin-left: 150px"><strong>所有客户列表 </strong></h3>
+    <br>
+
+
+    <div class="container-fluid">
+    <div class="row">
+    <div class="col-md-10 col-lg-offset-1">
+        <!--模糊查询的form表单-->
+        <form action="" style="float:right;" method="get" novalidate name="form_search">
+            {% csrf_token %}
+            <select name="field" id="" style="display: inline-block;width: 100px;height: 30px" class="form-control">
+                <option value="name">姓名</option>
+                <option value="qq">qq</option>
+                <option value="phone">手机号</option>
+            </select>
+            <input type="text" placeholder="输入搜索条件" style="width: 200px;height: 31px;display: inline-block"
+                   name="search" class="form-control">
+            <input type="submit" class="btn btn-success" value="搜索" style="width: 100px;display: inline-block">
+        </form>
+
+        <!--批量处理的form表单-->
+        <form action="" method="post" name="action" name="form_batch">
+            {% csrf_token %}
+            <select name="action" id="" style="display: inline-block;width: 120px;height: 40px" class="form-control">
+                <option value="batch_delete" selected>批量删除</option>
+                <option value="changeTo_private" selected>公户转私户</option>
+                <option value="changeTo_public" selected>私户转公户</option>
+            </select>
+
+            <input type="submit" class="btn btn-success" value="批量处理" style="width: 100px;display: inline-block">
+            <br>
+            <a href="/add_customer/{{ next }}" style="font-size: x-large"> 添加客户</a>
+
+
+            <table class="table table-bordered">
+
+                <thead>
+                <tr>
+                    <th><input type="checkbox">1</th>
+                    <th>编号</th>
+                    <th>客户姓名</th>
+                    <th>性别</th>
+                    <th>qq</th>
+                    <th>手机号</th>
+                    <th>客户来源</th>
+                    <th>咨询日期</th>
+                    <th>当前状态</th>
+                    <th>销售</th>
+                    <th>所报班级</th>
+                    <th>跟进记录</th>
+                    <th>操作</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                {% for customer in all_customers %}
+                    <tr>
+                        <td><input type="checkbox" name="selected_list" value="{{ customer.pk }}"></td>
+                        <td> {{ forloop.counter }} </td>
+                        <td> {{ customer.name }} </td>
+                        <td> {{ customer.get_sex_display }} </td>
+                        <td> {{ customer.qq }} </td>
+                        <td> {{ customer.phone|default:'' }} </td>
+                        <td> {{ customer.get_source_display }} </td>
+                        <td> {{ customer.date|date:'Y-m-d' }} </td>
+
+                        <td> {{ customer.get_status }} </td>
+
+                        <td> {{ customer.consultant }} </td>
+                        <td> {{ customer.get_classlist }} </td>
+                        <td> <a href="/consult_record/?customer_id={{ customer.pk }}">跟进记录</a> </td>
+
+                        <td><a href="{% url 'edit_customers' customer.pk %}{{ next }}" class="btn btn-danger" style="color:white;"> 编辑 </a></td>
+
+                        <td><a href="{{ next }}{{ customer.pk }}" class="btn btn-primary" style="color:white;"> 删除</a> </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                <tbody>
+
+                </tbody>
+            </table>
+
+
+            {#    <nav aria-label="Page navigation" class="pull-right">#}
+            {#        <ul class="pagination">#}
+            {#            {{ pagination.page_html|safe }}#}
+            {#        </ul>#}
+            {#    </nav>#}
+            {#    </nav>#}
+        </form>
+
+    </div>
+{% endblock %}
+
+

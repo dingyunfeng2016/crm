@@ -1,0 +1,29 @@
+{% extends 'customers/base.html' %}
+
+{% block content %}
+    <h3 style="margin-left: 300px"><strong>
+        {% if edit_obj %}
+            编辑客户
+        {% else %}
+            新增客户
+        {% endif %}
+
+    </strong></h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-offset-4">
+                <form action="" method="post" novalidate>
+                    {% csrf_token %}
+                    {% for field in add_customer_obj %}
+                        {{ field.label }}
+                        <p>
+                            {{ field }}
+                        </p>
+                        <span style="color: red">{{ field.errors }}</span>
+                    {% endfor %}
+                    <input type="submit" class="btn btn-danger" style="width: 80px;margin-left: 200px">
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

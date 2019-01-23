@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="">
+<head>
+    <meta charset="utf-8">
+    <title>Retina Dashboard</title>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <meta name="robots" content=""/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="/static/my_login_page/css/style.css" media="all"/>
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/js/bootstrap.js">
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7/css/bootstrap.css">
+</head>
+<body>
+{% csrf_token %}
+<div class="testing">
+    <header class="main" style="height:80px;">
+        <h1 style="margin-left: 50px;margin-top: 10px"><strong>CRM管理系统</strong></h1>
+        <ul style="float: right;margin-top: -10px;margin-right: 100px">
+            <li>
+                <strong style="color: white;font-size:16px">当前登录用户:</strong>
+                <span class="button blue"> {{ request.user }} </span>
+                <span class="button blue"><a href="/customers/">首页</a></span>
+
+                <span class="button blue">帮助</span>
+                <span class="button blue"><a href="/logout/">注销</a></span>
+            </li>
+        </ul>
+
+    </header>
+
+</div>
+<nav>
+    <ul>
+
+        <li style="text-align: center">
+            <a href="/customers/">所有客户</a>
+        </li>
+        <li style="text-align: center">
+            <a href="/public_customers/">公户列表</a>
+        </li>
+        <li style="text-align: center">
+            <a href="/my_customers/">我的客户</a>
+
+        </li>
+        <li style="text-align: center">
+            <a href="/consult_record/">跟进记录</a>
+
+        </li>
+
+        <li style="text-align: center">
+            <a href="/class_study_record_list/">班级上课记录</a>
+        </li>
+        <li style="text-align: center">
+            <a href="/all_student_study_record_list/"> 所有学生学习记录 </a>
+        </li>
+
+
+    </ul>
+</nav>
+
+<section class="content" style="margin-top: 3px">
+
+
+    {% block content %}
+        content...........
+    {% endblock %}
+
+</section>
+{#<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>#}
+<script src="/static/jq/jquery-3.3.1.js"></script>
+<script src="/static/my_login_page/js/jquery.wysiwyg.js"></script>
+<script src="/static/my_login_page/js/custom.js"></script>
+<script src="/static/my_login_page/js/cycle.js"></script>
+<script src="/static/my_login_page/js/jquery.checkbox.min.js"></script>
+<script src="/static/my_login_page/js/flot.js"></script>
+<script src="/static/my_login_page/js/flot.resize.js"></script>
+<script src="/static/my_login_page/js/flot-time.js"></script>
+<script src="/static/my_login_page/js/flot-pie.js"></script>
+<script src="/static/my_login_page/js/flot-graphs.js"></script>
+<script src="/static/my_login_page/js/cycle.js"></script>
+<script src="/static/my_login_page/js/jquery.tablesorter.min.js"></script>
+<script type="text/javascript">
+    // Feature slider for graphs
+    $('.cycle').cycle({
+        fx: "scrollHorz",
+        timeout: 0,
+        slideResize: 0,
+        prev: '.left-btn',
+        next: '.right-btn'
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+	<meta charset="utf-8">
+	<title>crm...</title>
+	<meta name="description" content="" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+	<link rel="stylesheet" href="/static/my_login_page/css/style.css" media="all" />
+	<!--[if IE]><link rel="stylesheet" href="css/ie.css" media="all" /><![endif]-->
+</head>
+<body class="login">
+	<section>
+		<h1><strong>CRM</strong></h1>
+		<form method="post" action="" >
+            {% csrf_token %}
+			<input type="text" name="username" placeholder="用户名" />
+			<input value="Password" name="pwd" type="password" placeholder="密码"/>
+
+            <input type="submit">登录
+		</form>
+		<p><a href="//" style="font-size: large"> <h3>忘记密码?</h3></a></p>
+        <p><a href="/reg/" style="font-size: large"> <h3>没账号? 去注册</h3> </a></p>
+	</section>
+
+</body>
+</html>

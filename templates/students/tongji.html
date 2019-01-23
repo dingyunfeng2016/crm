@@ -1,0 +1,94 @@
+{% extends 'customers/base.html' %}
+{% block content %}
+    <h3> 全部客户 </h3>
+
+    <hr>
+    <a href="?date=today">今天</a>
+    <a href="?date=zuotian">昨天</a>
+    <a href="?date=week">最近一周</a>
+    <a href="?date=recent_month">最近一个月</a>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+
+                <table id="example2" class="text-center table table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center">编号</th>
+                        <th class="text-center">客户姓名</th>
+                        <th class="text-center">性别</th>
+                        <th class="text-center">客户来源</th>
+                        <th class="text-center">销售</th>
+                        <th class="text-center">所报班级</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <h4>所有客户</h4>
+
+                    {% for customer in all_customer_list %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ customer.name }}</td>
+                            <td>{{ customer.get_sex_display }}</td>
+                            <td>{{ customer.get_source_display }}</td>
+                            <td>{{ customer.consultant }}</td>
+                            <td>{{ customer.get_class_type_display }}</td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr>
+
+            <h4>柱状图</h4>
+
+            </div>
+        </div>
+    </div>
+    <script src="/static/highchart/highcharts.js"></script>   <!--引入插件的js文件-->
+    <script>
+    var chart = Highcharts.chart('container', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: '统计成单量'
+                        },
+                        subtitle: {
+                            text: ''
+                        },
+                        xAxis: {
+                            type: 'category',
+                            labels: {
+                                rotation: 0  // 设置轴标签旋转角度
+                            }
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: '成单数'
+                            }
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            pointFormat: '成单人数: <b>{point.y} 单</b>'
+                        },
+                        series: [{
+                            name: '总人口',
+                            data: {{ tongji_list|safe }},  // 柱状图接收 列表 数据类型.所以后台要传列表,且要safe一下,不然不显示
+                            dataLabels: {
+                                enabled: true,
+                                rotation: -90,
+                                color: '#FFFFFF',
+                                align: 'right',
+                                format: '{point.y:.1f}', // :.1f 为保留 1 位小数
+                                y: 10
+                            }
+                        }]
+          });
+
+</script>
+{% endblock %}

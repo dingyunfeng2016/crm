@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+</head>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" placeholder="用户名">
+    <input type="text" placeholder="密码">
+    <input type="button" id="btn1">提交  <span id="s1"></span>
+</form>
+<script src="/static/jq/jquery-3.3.1.js">
+    $('#btn1').click(function () {
+        $.ajax({
+            'url':'/login/',
+            'meth'
+        })
+    })
+
+
+
+</script>
+</body>
+</html>

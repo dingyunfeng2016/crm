@@ -1,0 +1,96 @@
+{% extends 'customers/base.html' %}
+{% block content %}
+    <h3 style="margin-left: 230px">{{ cls_sud_record_obj.class_obj }} day{{ cls_sud_record_obj.day_num }}&nbsp&nbsp
+        学生学习记录</h3>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-12">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+
+                            <th>编号</th>
+                            <th>id</th>
+                            <th>姓名</th>
+                            <th>考勤</th>
+                            <th>成绩</th>
+                            <th>评语</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for stu_sud_record in stu_sud_record_list %}
+                            <tr>
+
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ stu_sud_record.pk }}</td>
+                                <td>{{ stu_sud_record.student }}</td>
+                                <td>{{ stu_sud_record.get_record_display }}</td>
+
+                                <td>  <!-- score用selecet下拉列表显示  -->
+                                    <select name="score__{{ stu_sud_record.pk }}" id="">
+                                        {% for score_choice in score_choices %}
+                                            {% if stu_sud_record.score == score_choice.0 %}
+                                                <!-- score_choices = ((100, 'A+'))-->
+                                                <!-- 默认选中用户已有的评分  -->
+                                                <option selected
+                                                        value="{{ score_choice.0 }}">{{ score_choice.1 }}</option>
+                                            {% else %}
+                                                <option value="{{ score_choice.0 }}">{{ score_choice.1 }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </select>
+                                </td>
+                                <td>
+                                    <textarea name="homework_note__{{ stu_sud_record.pk }}" id="" cols="20" rows="1"
+                                              class="form-control">{{ stu_sud_record.homework_note|default:"" }}</textarea>
+                                </td>
+
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+
+                    </table>
+                    <input type="submit" class="btn btn-success small" style="height: 30px;width:60px;float: right"
+                           value="保存">
+                </form>
+
+                <hr>
+                <hr>
+                <h3> formset的批量保存 </h3>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {{ formset.management_form }} <!--用formset这一行必须加-->
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>考勤</th>
+                            <th>作业成绩</th>
+                            <th>作业评语</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for form in formset %} <!--循环formset对象-->
+                            <tr>
+                                {{ form.id }}
+                                <td>{{ form.instance.student }}</td>
+                                <td>{{ form.record }} </td>
+                                <td>{{ form.score }} </td>
+                                <td>{{ form.homework_note }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <input type="submit" class="btn btn-success small" style="height: 30px;width:60px;float: right"
+                           value="保存">
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
